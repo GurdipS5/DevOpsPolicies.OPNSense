@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  opa-server:
+    image: openpolicyagent/opa:latest-envoy
+    container_name: opnsense-opa-server
+    ports:
+      - "8181:8181"  # OPA API
+      - "8282:8282"  # OPA Diagnostics
+    volumes:
+      - ./artifacts:/bundles:ro
+      - ./opa-server.yaml:/config/opa-server.yaml:ro
+    command: 
+      - "run"
+      - "--server"
+      - "--config-file=/config/opa-server.yaml"
+      - "--log-level=info"
+    environment:
+      - OPA_LOG_LEVEL=info
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8181/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped

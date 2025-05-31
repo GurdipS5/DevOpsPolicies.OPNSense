@@ -1,0 +1,43 @@
+# OPA Bundle Configuration
+# This file defines how to build OPA bundles from the policies
+
+name: opnsense-firewall-policies
+version: 1.0.0
+description: "OPA policies for OPNSense firewall configuration validation"
+
+# Bundle metadata
+metadata:
+  authors:
+    - "DevOps Team"
+  keywords:
+    - "opnsense"
+    - "firewall" 
+    - "security"
+    - "compliance"
+    - "conftest"
+  repository: "https://github.com/your-org/opnsense-conftest-policies"
+  license: "MIT"
+
+# Root directories to include in the bundle
+roots:
+  - "policy"
+
+# Files to exclude from the bundle
+exclude:
+  - "*.md"
+  - "examples/"
+  - "build/"
+  - ".git/"
+  - ".github/"
+  - "*.log"
+  - "output/"
+  - "artifacts/"
+
+# Bundle signing configuration (optional)
+# signing:
+#   key: "path/to/private/key.pem"
+#   algorithm: "RS256"
+
+# Wasm compilation settings (optional)
+# wasm:
+#   entrypoint: "policy/main"

@@ -1,0 +1,12 @@
+{
+  "revision": "1.0.0",
+  "roots": ["policy"],
+  "metadata": {
+    "name": "opnsense-firewall-policies",
+    "description": "OPA policies for OPNSense firewall configuration validation",
+    "version": "1.0.0",
+    "authors": ["DevOps Team"],
+    "keywords": ["opnsense", "firewall", "security", "compliance"],
+    "repository": "https://github.com/your-org/opnsense-conftest-policies"
+  }
+}

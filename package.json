@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "auto-changelog": "^2.5.0",
+    "cspell": "^9.0.2",
+    "czg": "^1.11.1",
+    "nerdbank-gitversioning": "^3.8.38-alpha"
+  }
+}

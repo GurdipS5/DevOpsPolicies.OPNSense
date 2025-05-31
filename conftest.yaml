@@ -1,0 +1,34 @@
+# Conftest configuration for OPNSense firewall policies
+policy:
+  - policy/
+
+# Specify which files to validate
+input:
+  - "*.json"
+  - "*.yaml"
+  - "*.yml"
+
+# Output format
+output: table
+
+# Fail on warnings (set to false if you want warnings to not fail the validation)
+fail-on-warn: false
+
+# Combine results from all policies
+combine: true
+
+# Namespace configuration
+namespace:
+  - opnsense.firewall.rules
+  - opnsense.interfaces
+  - opnsense.vpn.security
+  - opnsense.network.security
+  - opnsense.access.control
+  - opnsense.system.config
+  - opnsense.compliance
+
+# Trace configuration for debugging
+trace: false
+
+# Strict mode - fail if no policies are found
+strict: true

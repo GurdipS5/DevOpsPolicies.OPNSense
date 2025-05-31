@@ -1,0 +1,74 @@
+# Regal configuration for OPNSense policies
+# See: https://docs.styra.com/regal
+
+rules:
+  # Style rules
+  style:
+    line-length:
+      # Allow longer lines for policy descriptions
+      max-line-length: 120
+    
+    opa-fmt:
+      # Ensure consistent formatting
+      level: error
+    
+    prefer-snake-case:
+      # Enforce snake_case for variables
+      level: error
+    
+    use-assignment-operator:
+      # Prefer := over = for assignment
+      level: error
+
+  # Best practices
+  bugs:
+    constant-condition:
+      level: error
+    
+    duplicate-rule:
+      level: error
+    
+    impossible-not:
+      level: error
+
+  # Performance rules
+  performance:
+    with-outside-test-context:
+      level: warning
+
+  # Security rules  
+  security:
+    http-request-without-timeout:
+      level: error
+
+  # Custom rules for our policies
+  custom:
+    # Require descriptions for deny rules
+    require-rule-description:
+      level: error
+    
+    # Prefer specific error messages
+    prefer-specific-messages:
+      level: warning
+
+# Ignore patterns
+ignore:
+  files:
+    - "examples/**"
+    - "test/**"
+    - "*.test.rego"
+
+# Capabilities - define what built-ins are available
+capabilities:
+  builtins:
+    - name: "sprintf"
+    - name: "startswith"
+    - name: "endswith"
+    - name: "contains"
+    - name: "count"
+    - name: "regex.match"
+    - name: "time.now_ns"
+
+# Output format
+output:
+  format: "pretty"

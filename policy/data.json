@@ -1,0 +1,106 @@
+{
+  "compliance_frameworks": {
+    "pci_dss": {
+      "name": "Payment Card Industry Data Security Standard",
+      "version": "4.0",
+      "requirements": {
+        "encryption_at_rest": true,
+        "centralized_logging": true,
+        "log_retention_days": 365,
+        "network_segmentation": true,
+        "access_control": true
+      }
+    },
+    "hipaa": {
+      "name": "Health Insurance Portability and Accountability Act",
+      "requirements": {
+        "data_encryption": true,
+        "access_logging": true,
+        "automatic_logoff": true,
+        "audit_controls": true,
+        "person_authentication": true
+      }
+    },
+    "sox": {
+      "name": "Sarbanes-Oxley Act",
+      "requirements": {
+        "change_management": true,
+        "log_retention_days": 2555,
+        "access_controls": true,
+        "audit_trails": true
+      }
+    },
+    "gdpr": {
+      "name": "General Data Protection Regulation",
+      "requirements": {
+        "data_protection_impact_assessment": true,
+        "breach_notification_process": true,
+        "data_residency_controls": true,
+        "consent_management": true
+      }
+    },
+    "iso_27001": {
+      "name": "ISO/IEC 27001 Information Security Management",
+      "requirements": {
+        "information_security_policy": true,
+        "risk_assessment_process": true,
+        "incident_response_plan": true,
+        "business_continuity_plan": true
+      }
+    },
+    "nist_csf": {
+      "name": "NIST Cybersecurity Framework",
+      "requirements": {
+        "asset_inventory": true,
+        "vulnerability_management": true,
+        "access_control": true,
+        "data_security": true
+      }
+    },
+    "cis_controls": {
+      "name": "CIS Critical Security Controls",
+      "requirements": {
+        "authorized_software_inventory": true,
+        "secure_configuration_management": true,
+        "continuous_vulnerability_management": true,
+        "administrative_privileges": true
+      }
+    }
+  },
+  "security_standards": {
+    "encryption": {
+      "weak_algorithms": ["des", "3des", "rc4", "md5"],
+      "strong_algorithms": ["aes256", "aes128", "chacha20"],
+      "min_key_length": 128
+    },
+    "tls": {
+      "deprecated_versions": ["1.0", "1.1"],
+      "secure_versions": ["1.2", "1.3"]
+    },
+    "ssh": {
+      "default_port": 22,
+      "secure_ports": [2222, 2200, 22000],
+      "weak_auth_methods": ["password", "keyboard-interactive"],
+      "strong_auth_methods": ["publickey", "certificate"]
+    },
+    "passwords": {
+      "min_length": 12,
+      "max_age_days": 90,
+      "history_count": 12,
+      "complexity_required": true
+    }
+  },
+  "network_security": {
+    "insecure_protocols": ["telnet", "ftp", "tftp", "rsh", "rlogin", "http"],
+    "secure_protocols": ["ssh", "sftp", "https", "ftps"],
+    "administrative_ports": ["22", "3389", "443", "80", "8080", "8443"],
+    "public_dns_servers": ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1", "208.67.222.222"],
+    "private_ip_ranges": ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"]
+  },
+  "firewall": {
+    "default_usernames": ["admin", "root", "administrator", "user", "guest"],
+    "default_hostnames": ["opnsense", "firewall", "router", "gateway", "localhost", "pfsense"],
+    "secure_actions": ["pass", "block", "reject"],
+    "logging_required_ports": ["22", "3389", "443", "80", "21", "23"]
+  }
+}

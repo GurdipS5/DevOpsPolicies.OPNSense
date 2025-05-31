@@ -1,0 +1,245 @@
+{
+  "environment": "production",
+  "compliance_requirements": ["pci_dss", "hipaa"],
+  "industry": "healthcare",
+  "region": "us",
+  "system": {
+    "hostname": "opnsense",
+    "domain": "",
+    "timezone": "",
+    "language": "",
+    "dns_servers": ["8.8.8.8"],
+    "ntp": {
+      "enabled": false,
+      "servers": ["pool.ntp.org"]
+    },
+    "backup": {
+      "enabled": false,
+      "retention_days": 7
+    },
+    "updates": {
+      "auto_check": false,
+      "auto_install": true
+    },
+    "console": {
+      "timeout": 0
+    },
+    "ssh": {
+      "enabled": true,
+      "port": 22,
+      "password_auth": true,
+      "root_login": true
+    },
+    "snmp": {
+      "enabled": true,
+      "version": "v1",
+      "location": "",
+      "contact": ""
+    },
+    "hardware_monitoring": {
+      "enabled": false
+    },
+    "disk_monitoring": {
+      "warning_threshold": 95,
+      "critical_threshold": 99
+    },
+    "kernel": {
+      "disable_loading_kernel_modules": false
+    },
+    "sysctl_settings": {
+      "net.inet.ip.forwarding": "0",
+      "net.inet.ip.redirect": "1"
+    }
+  },
+  "firewall": {
+    "default_policy": "allow",
+    "rules": [
+      {
+        "id": "rule-001",
+        "source": "any",
+        "destination": "any",
+        "destination_port": "1-65535",
+        "protocol": "tcp",
+        "action": "pass",
+        "enabled": true,
+        "log": false
+      },
+      {
+        "id": "rule-002",
+        "source": "0.0.0.0/0",
+        "destination": "192.168.1.1",
+        "destination_port": "22",
+        "protocol": "tcp",
+        "action": "pass",
+        "enabled": true,
+        "log": false
+      },
+      {
+        "id": "rule-003",
+        "source": "192.168.1.0/24",
+        "destination": "any",
+        "destination_port": "80",
+        "protocol": "http",
+        "action": "pass",
+        "enabled": false,
+        "log": false
+      }
+    ]
+  },
+  "interfaces": [
+    {
+      "name": "wan0",
+      "type": "wan",
+      "firewall_enabled": false,
+      "monitoring_enabled": false,
+      "mtu": 9000,
+      "enabled_protocols": ["telnet", "ftp", "http"],
+      "authentication": {
+        "password": "admin"
+      }
+    },
+    {
+      "name": "lan0",
+      "type": "lan",
+      "monitoring_enabled": false,
+      "enabled_protocols": ["telnet", "rsh"]
+    }
+  ],
+  "vpn": {
+    "configurations": [
+      {
+        "name": "weak-vpn",
+        "type": "ipsec",
+        "encryption_algorithm": "des",
+        "authentication_method": "psk",
+        "perfect_forward_secrecy": false,
+        "dh_group": 2,
+        "logging_enabled": false,
+        "pre_shared_key": "weak123",
+        "allowed_ciphers": ["des", "rc4"]
+      },
+      {
+        "name": "insecure-ssl-vpn",
+        "type": "ssl",
+        "encryption_algorithm": "3des",
+        "authentication_method": "none",
+        "certificate_validation": false,
+        "session_timeout": 86400,
+        "logging_enabled": false,
+        "multi_factor_auth": false,
+        "split_tunneling": true,
+        "allowed_ciphers": ["3des", "null"]
+      }
+    ]
+  },
+  "security": {
+    "ids_enabled": false,
+    "ips_enabled": false,
+    "dns_filtering_enabled": false,
+    "encryption_at_rest": false,
+    "data_encryption": false,
+    "access_logging": false,
+    "automatic_logoff": false,
+    "change_management": false,
+    "data_protection_impact_assessment": false,
+    "breach_notification_process": false,
+    "information_security_policy": false,
+    "risk_assessment_process": false,
+    "incident_response_plan": false,
+    "asset_inventory": false,
+    "vulnerability_management": false,
+    "authorized_software_inventory": false,
+    "secure_configuration_management": false,
+    "security_awareness_training": false,
+    "regular_security_assessments": false,
+    "vendor_risk_management": false,
+    "business_continuity_plan": false,
+    "data_loss_prevention": false,
+    "patient_data_encryption": false,
+    "hipaa_compliance": false,
+    "password_policy": {
+      "min_length": 6,
+      "require_complexity": false,
+      "max_age": 365,
+      "history_count": 1
+    },
+    "tls": {
+      "allowed_versions": ["1.0", "1.1"]
+    }
+  },
+  "network": {
+    "dns_servers": ["8.8.8.8", "1.1.1.1"],
+    "ntp": {
+      "authentication_enabled": false
+    },
+    "vlans": [],
+    "wan_ping_response": true
+  },
+  "services": {
+    "enabled": ["telnet", "ftp", "tftp", "rsh"],
+    "snmp": {
+      "enabled": true,
+      "version": "v1",
+      "community_string": "public"
+    }
+  },
+  "logging": {
+    "remote_syslog_enabled": false,
+    "centralized_logging": false,
+    "retention_days": 7
+  },
+  "documentation": {
+    "compliance_documentation": false,
+    "security_policies": false,
+    "procedures": false
+  },
+  "monitoring": {
+    "bandwidth_monitoring": false
+  },
+  "web_interface": {
+    "protocol": "http",
+    "session_timeout": 7200
+  },
+  "certificates": [
+    {
+      "name": "self-signed-cert",
+      "self_signed": true,
+      "days_until_expiry": 10
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "privileges": ["admin"],
+      "multi_factor_auth": false,
+      "password_policy_compliant": false,
+      "session_timeout": 7200,
+      "max_concurrent_sessions": 0,
+      "last_login_days": 120,
+      "enabled": true,
+      "access_method": "password_only"
+    },
+    {
+      "username": "superuser",
+      "privileges": ["admin", "user_management", "system_config", "network_config", "security_config"],
+      "multi_factor_auth": false,
+      "password_policy_compliant": false,
+      "session_timeout": 86400,
+      "max_concurrent_sessions": 0,
+      "last_login_days": 200,
+      "enabled": true,
+      "access_method": "password_only"
+    }
+  ],
+  "roles": [
+    {
+      "name": "god_mode",
+      "permissions": ["all"]
+    }
+  ],
+  "api_access": {
+    "enabled": true,
+    "authentication_required": false,
+    "rate_limiting": false
+  }
+}

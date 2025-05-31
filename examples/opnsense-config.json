@@ -1,0 +1,302 @@
+{
+  "environment": "enterprise",
+  "compliance_requirements": ["iso_27001", "gdpr"],
+  "industry": "financial_services",
+  "region": "eu",
+  "system": {
+    "hostname": "fw-prod-01.company.com",
+    "domain": "company.com",
+    "timezone": "Europe/London",
+    "language": "en_US",
+    "dns_servers": ["192.168.1.10", "192.168.1.11", "192.168.2.10"],
+    "ntp": {
+      "enabled": true,
+      "authentication_enabled": true,
+      "servers": ["ntp1.company.com", "ntp2.company.com", "ntp3.company.com"]
+    },
+    "backup": {
+      "enabled": true,
+      "retention_days": 90,
+      "encryption": true,
+      "remote_location": "backup.company.com"
+    },
+    "updates": {
+      "auto_check": true,
+      "auto_install": false,
+      "maintenance_window": "02:00-04:00"
+    },
+    "console": {
+      "timeout": 900,
+      "banner_enabled": true
+    },
+    "motd": "WARNING: Authorized access only. All activities are monitored and logged.",
+    "ssh": {
+      "enabled": true,
+      "port": 2222,
+      "password_auth": false,
+      "root_login": false,
+      "key_auth": true
+    },
+    "snmp": {
+      "enabled": true,
+      "version": "v3",
+      "location": "Data Center A, Rack 15",
+      "contact": "netops@company.com"
+    },
+    "hardware_monitoring": {
+      "enabled": true,
+      "temperature_alerts": true,
+      "disk_health": true
+    },
+    "disk_monitoring": {
+      "warning_threshold": 80,
+      "critical_threshold": 90
+    },
+    "kernel": {
+      "disable_loading_kernel_modules": true
+    },
+    "sysctl_settings": {
+      "net.inet.ip.forwarding": "1",
+      "net.inet.ip.redirect": "0",
+      "net.inet.icmp.drop_redirect": "1"
+    }
+  },
+  "firewall": {
+    "default_policy": "deny",
+    "rules": [
+      {
+        "id": "rule-001",
+        "description": "Allow HTTPS traffic from LAN to WAN",
+        "source": "192.168.1.0/24",
+        "destination": "any",
+        "destination_port": "443",
+        "protocol": "tcp",
+        "action": "pass",
+        "enabled": true,
+        "log": true
+      },
+      {
+        "id": "rule-002",
+        "description": "Allow SSH from management network",
+        "source": "192.168.100.0/24",
+        "destination": "192.168.1.1",
+        "destination_port": "22",
+        "protocol": "tcp",
+        "action": "pass",
+        "enabled": true,
+        "log": true
+      },
+      {
+        "id": "rule-003",
+        "description": "Block all other traffic",
+        "source": "any",
+        "destination": "any",
+        "destination_port": "any",
+        "protocol": "any",
+        "action": "block",
+        "enabled": true,
+        "log": true
+      }
+    ]
+  },
+  "interfaces": [
+    {
+      "name": "wan0",
+      "type": "wan",
+      "firewall_enabled": true,
+      "monitoring_enabled": true,
+      "mtu": 1500,
+      "enabled_protocols": ["https", "ssh"],
+      "access_control_list": true
+    },
+    {
+      "name": "lan0",
+      "type": "lan",
+      "vlan_id": 100,
+      "monitoring_enabled": true,
+      "enabled_protocols": ["https", "ssh"]
+    },
+    {
+      "name": "dmz0",
+      "type": "dmz",
+      "vlan_id": 200,
+      "monitoring_enabled": true,
+      "access_control_list": true,
+      "enabled_protocols": ["https"]
+    }
+  ],
+  "vpn": {
+    "configurations": [
+      {
+        "name": "site-to-site-vpn",
+        "type": "ipsec",
+        "encryption_algorithm": "aes256",
+        "authentication_method": "certificate",
+        "perfect_forward_secrecy": true,
+        "dh_group": 16,
+        "logging_enabled": true,
+        "dead_peer_detection": true,
+        "allowed_ciphers": ["aes256", "aes128"]
+      },
+      {
+        "name": "remote-access-vpn",
+        "type": "ssl",
+        "encryption_algorithm": "aes256",
+        "authentication_method": "certificate",
+        "certificate_validation": true,
+        "session_timeout": 7200,
+        "logging_enabled": true,
+        "multi_factor_auth": true,
+        "split_tunneling": false,
+        "allowed_ip_ranges": ["192.168.100.0/24"],
+        "allowed_ciphers": ["aes256", "aes128"]
+      }
+    ]
+  },
+  "security": {
+    "ids_enabled": true,
+    "ips_enabled": true,
+    "dns_filtering_enabled": true,
+    "encryption_at_rest": true,
+    "data_encryption": true,
+    "access_logging": true,
+    "automatic_logoff": true,
+    "change_management": true,
+    "data_protection_impact_assessment": true,
+    "breach_notification_process": true,
+    "information_security_policy": true,
+    "risk_assessment_process": true,
+    "incident_response_plan": true,
+    "asset_inventory": true,
+    "vulnerability_management": true,
+    "authorized_software_inventory": true,
+    "secure_configuration_management": true,
+    "security_awareness_training": true,
+    "regular_security_assessments": true,
+    "vendor_risk_management": true,
+    "business_continuity_plan": true,
+    "data_loss_prevention": true,
+    "patient_data_encryption": true,
+    "fips_140_2_compliance": false,
+    "data_residency_controls": true,
+    "hipaa_compliance": false,
+    "account_lockout": {
+      "enabled": true,
+      "max_attempts": 3,
+      "lockout_duration": 1800
+    },
+    "password_policy": {
+      "min_length": 14,
+      "require_complexity": true,
+      "max_age": 60,
+      "history_count": 12
+    },
+    "audit_logging": {
+      "privileged_actions": true
+    },
+    "access_review": {
+      "enabled": true,
+      "frequency_days": 90
+    },
+    "tls": {
+      "allowed_versions": ["1.2", "1.3"]
+    }
+  },
+  "network": {
+    "dns_servers": ["192.168.1.10", "192.168.1.11"],
+    "ntp": {
+      "authentication_enabled": true,
+      "servers": ["ntp1.internal.com", "ntp2.internal.com"]
+    },
+    "vlans": [
+      {"id": 100, "name": "management"},
+      {"id": 200, "name": "dmz"},
+      {"id": 300, "name": "guest"}
+    ],
+    "wan_ping_response": false
+  },
+  "services": {
+    "enabled": ["https", "ssh", "ntp"],
+    "snmp": {
+      "enabled": true,
+      "version": "v3",
+      "community_string": "secure_community_string_2024",
+      "authentication": true
+    }
+  },
+  "logging": {
+    "remote_syslog_enabled": true,
+    "centralized_logging": true,
+    "retention_days": 365,
+    "syslog_server": "192.168.1.50"
+  },
+  "documentation": {
+    "compliance_documentation": true,
+    "security_policies": true,
+    "procedures": true
+  },
+  "monitoring": {
+    "bandwidth_monitoring": true
+  },
+  "web_interface": {
+    "protocol": "https",
+    "certificate_validation": true,
+    "session_timeout": 1800
+  },
+  "certificates": [
+    {
+      "name": "web-interface-cert",
+      "self_signed": false,
+      "days_until_expiry": 45,
+      "issuer": "Internal CA"
+    },
+    {
+      "name": "vpn-server-cert",
+      "self_signed": false,
+      "days_until_expiry": 120,
+      "issuer": "Internal CA"
+    }
+  ],
+  "users": [
+    {
+      "username": "firewall_admin",
+      "privileges": ["admin"],
+      "multi_factor_auth": true,
+      "password_policy_compliant": true,
+      "session_timeout": 1800,
+      "max_concurrent_sessions": 2,
+      "last_login_days": 1,
+      "enabled": true,
+      "access_method": "certificate"
+    },
+    {
+      "username": "network_operator",
+      "privileges": ["monitoring", "reporting"],
+      "multi_factor_auth": true,
+      "password_policy_compliant": true,
+      "session_timeout": 3600,
+      "max_concurrent_sessions": 1,
+      "last_login_days": 5,
+      "enabled": true,
+      "access_method": "password_mfa"
+    }
+  ],
+  "roles": [
+    {
+      "name": "administrator",
+      "description": "Full system administration access",
+      "permissions": ["firewall_config", "user_management", "system_config"]
+    },
+    {
+      "name": "operator",
+      "description": "Read-only monitoring and reporting access",
+      "permissions": ["monitoring", "reporting"]
+    }
+  ],
+  "api_access": {
+    "enabled": true,
+    "authentication_required": true,
+    "rate_limiting": true,
+    "max_requests_per_minute": 100
+  }
+}

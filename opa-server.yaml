@@ -1,0 +1,59 @@
+# OPA Server Configuration
+# This file configures an OPA server to serve the firewall policies
+
+# Server configuration
+server:
+  addr: ":8181"
+  diagnostic-addr: ":8282"
+
+# Bundle configuration
+bundles:
+  opnsense-policies:
+    resource: "file:///bundles/opnsense-policies-bundle.tar.gz"
+    polling:
+      min_delay_seconds: 10
+      max_delay_seconds: 20
+
+# Decision logging
+decision_logs:
+  console: true
+  reporting:
+    min_delay_seconds: 5
+    max_delay_seconds: 10
+
+# Status reporting
+status:
+  console: true
+
+# Plugins
+plugins:
+  discovery:
+    name: "discovery"
+
+# Authentication (optional)
+# authentication:
+#   token:
+#     jwks_url: "https://your-auth-provider/.well-known/jwks.json"
+#     iss: "your-issuer"
+#     aud: "your-audience"
+
+# Authorization (optional)
+# authorization:
+#   allow_anonymous: false
+
+# Metrics
+metrics:
+  prometheus:
+    http_request_duration_seconds:
+      buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+
+# Distributed tracing
+# distributed_tracing:
+#   type: "jaeger"
+#   address: "http://jaeger:14268/api/traces"
+#   service_name: "opa-server"
+
+# Storage
+storage:
+  disk:
+    directory: "/tmp/opa"
