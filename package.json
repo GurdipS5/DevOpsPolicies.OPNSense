@@ -4,5 +4,15 @@
     "cspell": "^9.0.2",
     "czg": "^1.11.1",
     "nerdbank-gitversioning": "^3.8.38-alpha"
+  },
+  "scripts": {
+    "changelog": "auto-changelog",
+    "commit": "czg",
+    "lint:commit": "commitlint --edit",
+    "version": "nbgv get-version --variable NuGetPackageVersion"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1"
   }
 }

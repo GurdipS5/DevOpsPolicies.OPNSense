@@ -1,0 +1,27 @@
+{
+  "output": "CHANGELOG.md",
+  "template": "keepachangelog",
+  "unreleased": true,
+  "commitLimit": false,
+  "backfillLimit": false,
+  "handlebarsHelpers": {
+    "eq": "{{#eq a b}}{{/eq}}",
+    "ne": "{{#ne a b}}{{/ne}}"
+  },
+  "replaceText": {
+    "feat": "✨ Features",
+    "fix": "🐛 Bug Fixes", 
+    "docs": "📚 Documentation",
+    "style": "💎 Styles",
+    "refactor": "📦 Code Refactoring",
+    "perf": "🚀 Performance Improvements",
+    "test": "🚨 Tests",
+    "build": "🛠 Build System",
+    "ci": "⚙️ Continuous Integration",
+    "chore": "♻️ Chores",
+    "revert": "🗑 Reverts"
+  },
+  "includeBranch": ["main", "master"],
+  "ignoreCommitPattern": "^(chore|docs)\\(release\\):",
+  "sortCommits": "relevance"
+}

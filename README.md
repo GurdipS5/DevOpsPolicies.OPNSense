@@ -185,6 +185,70 @@ Regal checks for:
 - **Security issues** in policy logic
 - **Code quality** and maintainability
 
+### Version Management with Nerdbank.GitVersioning
+
+The project uses [Nerdbank.GitVersioning (nbgv)](https://github.com/dotnet/Nerdbank.GitVersioning) for automatic semantic versioning:
+
+```bash
+# Get current version information
+npx nbgv get-version --format json
+
+# Get just the version number
+npx nbgv get-version --variable NuGetPackageVersion
+
+# Example output: 1.0.1
+```
+
+**Version Configuration:**
+- Base version: `1.0` (defined in [`version.json`](version.json))
+- Automatic build number increment based on git height
+- Public releases on `main`/`master` branches
+- Pre-release versions on feature branches with `alpha` suffix
+
+### Automated Changelog Management
+
+The build system includes automated changelog updates using conventional commits:
+
+```bash
+# Changelog is automatically updated on main/master builds
+./build.sh UpdateChangelog --commit-message "feat: add new feature"
+
+# Manual changelog generation using auto-changelog
+npx auto-changelog --output CHANGELOG.md --template keepachangelog
+
+# Using czg for conventional commits
+npx czg
+```
+
+**Conventional Commit Format:**
+- `feat:` - New features (→ Added section)
+- `fix:` - Bug fixes (→ Fixed section)
+- `docs:` - Documentation changes (→ Changed section)
+- `BREAKING CHANGE:` - Breaking changes (→ Changed section)
+
+### TeamCity Integration
+
+The project includes comprehensive TeamCity integration with automated versioning and changelog updates:
+
+```powershell
+# TeamCity build script
+./teamcity-build.ps1 -Target CI -UpdateChangelog
+
+# Environment variables used:
+# - BUILD_VCS_BRANCH: Git branch name
+# - BUILD_VCS_COMMIT_MESSAGE: Commit message for changelog
+# - HARBOR_REGISTRY, HARBOR_PROJECT: Harbor configuration
+```
+
+**TeamCity Features:**
+- Automatic version detection using nbgv
+- Build number synchronization with semantic version
+- Automated changelog updates on main/master branches
+- Git commit and push of changelog changes
+- Harbor OCI artifact publishing
+
+See [`teamcity-config-example.xml`](teamcity-config-example.xml) for complete TeamCity configuration.
+
 ### Harbor OCI Registry
 
 Push OPA bundles to Harbor registry as OCI artifacts:
@@ -193,16 +257,15 @@ Push OPA bundles to Harbor registry as OCI artifacts:
 # Install ORAS CLI
 # Download from: https://oras.land/
 
-# Push to Harbor
+# Push to Harbor (version automatically determined by nbgv)
 ./build.sh PushToHarbor \
-  --version 1.0.0 \
   --harbor-registry harbor.company.com \
   --harbor-project opnsense-policies \
   --harbor-username $HARBOR_USERNAME \
   --harbor-password $HARBOR_PASSWORD
 
 # The bundle will be available at:
-# harbor.company.com/opnsense-policies/opnsense-policies:1.0.0
+# harbor.company.com/opnsense-policies/opnsense-policies:1.0.1
 # harbor.company.com/opnsense-policies/opnsense-policies:latest
 ```
 
