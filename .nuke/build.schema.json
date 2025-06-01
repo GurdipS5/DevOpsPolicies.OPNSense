@@ -1,22 +1,38 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Build Schema",
   "$ref": "#/definitions/build",
+  "title": "Build Schema",
   "definitions": {
     "build": {
       "type": "object",
       "properties": {
-        "Configuration": {
+        "BranchName": {
           "type": "string",
-          "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
-          "enum": [
-            "Debug",
-            "Release"
-          ]
+          "description": "Branch name for determining build type"
+        },
+        "CommitMessage": {
+          "type": "string",
+          "description": "Git commit message for changelog updates"
         },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "HarborPassword": {
+          "type": "string",
+          "description": "Harbor password"
+        },
+        "HarborProject": {
+          "type": "string",
+          "description": "Harbor project name"
+        },
+        "HarborRegistry": {
+          "type": "string",
+          "description": "Harbor registry URL"
+        },
+        "HarborUsername": {
+          "type": "string",
+          "description": "Harbor username"
         },
         "Help": {
           "type": "boolean",
@@ -75,15 +91,14 @@
               "CheckTools",
               "CI",
               "Clean",
+              "CommitAndPushChanges",
               "CreateBundle",
               "Lint",
               "Package",
-              "Publish",
               "PushToHarbor",
-              "Release",
               "Restore",
               "Test",
-              "Validate",
+              "UpdateChangelog",
               "ValidatePolicies"
             ]
           }
@@ -91,6 +106,10 @@
         "SkipConftestCheck": {
           "type": "boolean",
           "description": "Skip conftest installation check"
+        },
+        "SkipRegal": {
+          "type": "boolean",
+          "description": "Skip Regal linting"
         },
         "Target": {
           "type": "array",
@@ -101,15 +120,14 @@
               "CheckTools",
               "CI",
               "Clean",
+              "CommitAndPushChanges",
               "CreateBundle",
               "Lint",
               "Package",
-              "Publish",
               "PushToHarbor",
-              "Release",
               "Restore",
               "Test",
-              "Validate",
+              "UpdateChangelog",
               "ValidatePolicies"
             ]
           }
@@ -126,31 +144,7 @@
         },
         "Version": {
           "type": "string",
-          "description": "Version to use for packaging"
-        },
-        "SkipConftestCheck": {
-          "type": "boolean",
-          "description": "Skip conftest installation check"
-        },
-        "SkipRegal": {
-          "type": "boolean",
-          "description": "Skip Regal linting"
-        },
-        "HarborRegistry": {
-          "type": "string",
-          "description": "Harbor registry URL"
-        },
-        "HarborProject": {
-          "type": "string",
-          "description": "Harbor project name"
-        },
-        "HarborUsername": {
-          "type": "string",
-          "description": "Harbor username"
-        },
-        "HarborPassword": {
-          "type": "string",
-          "description": "Harbor password"
+          "description": "Version to use for packaging (will be overridden by nbgv if available)"
         }
       }
     }
